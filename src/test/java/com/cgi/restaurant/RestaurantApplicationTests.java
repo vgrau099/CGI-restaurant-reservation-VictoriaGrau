@@ -4,6 +4,7 @@ import com.cgi.restaurant.model.RestaurantTable;
 import com.cgi.restaurant.model.Reservation;
 import com.cgi.restaurant.repository.TableRepository;
 import com.cgi.restaurant.repository.ReservationRepository;
+import com.cgi.restaurant.service.ReservationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,9 @@ class RestaurantApplicationTests {
 
     @Autowired
     private ReservationRepository broneeringuteRepo;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @Test
     void KasRakendusKaivitub() {
@@ -182,6 +186,112 @@ class RestaurantApplicationTests {
                         broneering.getSeltskonnaSuurus() <= broneering.getLaud().getMahtuvus(),
                         "Seltskond on suurem kui laua mahutavus laual: " + broneering.getLaud().getNimi()
                 )
+        );
+    }
+
+    @Test
+    void kasVabadLauadLeitakse() {
+        // valib tuleviku aja
+        LocalDateTime algus = LocalDateTime.now().plusDays(30).withHour(15).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime lopp = algus.plusHours(2);
+
+        // leiab vabad lauad 2 inimesele (ilma tsoonita)
+        List<RestaurantTable> vabadLauad = reservationService.leiaVabadLauad(algus, lopp, 2, null);
+
+        assertFalse(vabadLauad.isEmpty(), "Peaks leidma vabu laudu 30 päeva pärast");
+    }
+
+    @Test
+    void kasTsooniFiltreerimineTootab() {
+        LocalDateTime algus = LocalDateTime.now().plusDays(30).withHour(15).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime lopp = algus.plusHours(2);
+
+        // ainult terrassiga lauad
+        List<RestaurantTable> terrassigaLauad = reservationService.leiaVabadLauad(algus, lopp, 2, "terrass");
+
+        // kõik leitud lauad peavad olema terrassil
+        terrassigaLauad.forEach(laud ->
+                assertEquals("terrass", laud.getTsoon(), "Leitud laud ei ole terrassil")
+        );
+    }
+
+    @Test
+    void kontrolliSkoorimisalgoritmi() {
+        RestaurantTable laud = new RestaurantTable();
+        laud.setNimi("Testimine");
+        laud.setMahtuvus(4);
+        laud.setTsoon("siseala");
+        laud.setAknaAares(true);
+        laud.setVaikneNurk(false);
+        laud.setLigipaasetav(false);
+        laud.setMangunurk(false);
+
+        // 2 inimest 4-kohalises lauas (2 tühja kohta) = -6 punkti
+        // soovib akna ääres ja laud ON akna ääres = +10 punkti
+        // kokku peaks olema 4 punkti
+        int skoor = reservationService.arvutaSkoor(laud, 2, true, false, false, false);
+        assertEquals(4, skoor);
+    }
+
+    @Test
+    void kasSuuremSkoorVoidab() {
+        RestaurantTable vaikeLaud = new RestaurantTable();
+        vaikeLaud.setNimi("Väike");
+        vaikeLaud.setMahtuvus(2); // 0 tühja kohta
+        vaikeLaud.setTsoon("siseala");
+        vaikeLaud.setAknaAares(false);
+        vaikeLaud.setVaikneNurk(false);
+        vaikeLaud.setLigipaasetav(false);
+        vaikeLaud.setMangunurk(false);
+
+        RestaurantTable suurLaud = new RestaurantTable();
+        suurLaud.setNimi("Suur");
+        suurLaud.setMahtuvus(8); // 6 tühja kohta = -18 punkti
+        suurLaud.setTsoon("siseala");
+        suurLaud.setAknaAares(false);
+        suurLaud.setVaikneNurk(false);
+        suurLaud.setLigipaasetav(false);
+        suurLaud.setMangunurk(false);
+
+        int vaikeLauaSkoor = reservationService.arvutaSkoor(vaikeLaud, 2, false, false, false, false);
+        int suurLauaSkoor = reservationService.arvutaSkoor(suurLaud, 2, false, false, false, false);
+
+        // väike laud peaks saama kõrgema skoori kui suur laud
+        assertTrue(vaikeLauaSkoor > suurLauaSkoor,
+                "Väike laud peaks olema eelistatum kui suur laud (2-liikmelisele seltskonnale)");
+    }
+
+    @Test
+    void kontrolliBroneeringuLoomist() {
+        // esimene laud
+        RestaurantTable laud = laudadeRepo.findAll().get(0);
+
+        LocalDateTime algus = LocalDateTime.now().plusDays(30).withHour(16).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime lopp = algus.plusHours(2);
+
+        Reservation broneering = reservationService.looBreneering(
+                laud.getId(), "Test Klient", 2, algus, lopp
+        );
+
+        // kas broneering loodi õigesti?
+        assertNotNull(broneering.getId());
+        assertEquals("Test Klient", broneering.getKliendiNimi());
+        assertEquals(laud.getId(), broneering.getLaud().getId());
+    }
+
+    @Test
+    void kasTopeltBroneeringEbaonnestub() {
+        RestaurantTable laud = laudadeRepo.findAll().get(0);
+
+        LocalDateTime algus = LocalDateTime.now().plusDays(31).withHour(16).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime lopp = algus.plusHours(2);
+
+        reservationService.looBreneering(laud.getId(), "Esimene Klient", 2, algus, lopp);
+
+        // teine broneering samale lauale samal ajal peaks ebaõnnestuma
+        assertThrows(RuntimeException.class, () ->
+                        reservationService.looBreneering(laud.getId(), "Teine Klient", 2, algus, lopp),
+                "Topeltbroneering ei ebaõnnestunud"
         );
     }
 }
