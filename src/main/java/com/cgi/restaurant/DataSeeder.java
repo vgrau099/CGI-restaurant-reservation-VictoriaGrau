@@ -1,0 +1,127 @@
+package com.cgi.restaurant;
+
+import com.cgi.restaurant.model.Reservation;
+import com.cgi.restaurant.model.RestaurantTable;
+import com.cgi.restaurant.repository.ReservationRepository;
+import com.cgi.restaurant.repository.TableRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
+
+@Component
+public class DataSeeder implements CommandLineRunner { // Spring interface
+
+    private final TableRepository laudadeRepo;
+    private final ReservationRepository broneeringteRepo;
+    private final Random juhuslik = new Random();
+
+    public DataSeeder(TableRepository laudadeRepo, ReservationRepository broneeringteRepo) {
+        this.laudadeRepo = laudadeRepo;
+        this.broneeringteRepo = broneeringteRepo;
+    }
+
+    @Override
+    public void run(String... args) {
+        // ainult kui db on tühi
+        if (laudadeRepo.count() == 0) {
+            looLauad();
+            looJuhuslikudBroneeringud();
+        }
+    }
+
+    private void looLauad() {
+        laudadeRepo.saveAll(List.of(
+                looLaud("Laud 1", 2, "siseala", false, true,  false, false, 100, 100),
+                looLaud("Laud 2", 2, "siseala", true,  false, false, false, 100, 200),
+                looLaud("Laud 3", 4, "siseala", true,  false, false, false, 100, 300),
+                looLaud("Laud 4", 4, "siseala", false, false, true,  false, 100, 400),
+                looLaud("Laud 5", 4, "siseala", false, true,  false, false, 100, 500),
+                looLaud("Laud 6", 6, "siseala", false, false, false, true,  250, 100),
+                looLaud("Laud 7", 6, "siseala", true,  false, false, true,  250, 250),
+                looLaud("Laud 8", 8, "siseala", false, false, true,  false, 250, 400),
+
+                looLaud("Laud 9",  2, "terrass", true,  false, false, false, 500, 100),
+                looLaud("Laud 10", 2, "terrass", true,  false, false, false, 500, 200),
+                looLaud("Laud 11", 4, "terrass", false, true,  false, false, 500, 300),
+                looLaud("Laud 12", 4, "terrass", true,  false, true,  false, 500, 400),
+                looLaud("Laud 13", 6, "terrass", false, false, false, false, 500, 500),
+
+                looLaud("Laud 14", 6,  "privaatruum", false, true, false, false, 750, 100),
+                looLaud("Laud 15", 8,  "privaatruum", false, true, true,  false, 750, 250),
+                looLaud("Laud 16", 10, "privaatruum", false, true, false, false, 750, 400)
+        ));
+        System.out.println("---------- 16 lauda loodud ----------");
+    }
+
+    private RestaurantTable looLaud(
+            String nimi, int mahtuvus, String tsoon,
+            boolean aknaAares, boolean vaikneNurk,
+            boolean ligipaasetav, boolean mangunurk,
+            int x, int y) {
+
+        RestaurantTable laud = new RestaurantTable();
+        laud.setNimi(nimi);
+        laud.setMahtuvus(mahtuvus);
+        laud.setTsoon(tsoon);
+        laud.setAknaAares(aknaAares);
+        laud.setVaikneNurk(vaikneNurk);
+        laud.setLigipaasetav(ligipaasetav);
+        laud.setMangunurk(mangunurk);
+        laud.setX(x);
+        laud.setY(y);
+        return laud;
+    }
+
+    private void looJuhuslikudBroneeringud() {
+        // db-st kõik lauad
+        List<RestaurantTable> kõikLauad = laudadeRepo.findAll();
+
+        // loob broneeringud järgmiseks 7 päevaks
+        LocalDateTime tana = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+
+        for (int paev = 0; paev < 7; paev++) {
+            for (RestaurantTable laud : kõikLauad) {
+                int broneeringuteArv = juhuslik.nextInt(4);
+
+                for (int i = 0; i < broneeringuteArv; i++) {
+                    // 12:00 - 22:00
+                    // algusaeg 12-20
+                    int algustund = 12 + juhuslik.nextInt(9);
+                    LocalDateTime algusAeg = tana.plusDays(paev).withHour(algustund);
+                    LocalDateTime loppAeg = algusAeg.plusHours(2);
+
+                    // kontrollib, kas see aeg on juba broneeritud
+                    boolean kattub = broneeringteRepo
+                            .findByLaudAndAlgusAegLessThanAndLoppAegGreaterThan(laud, loppAeg, algusAeg)
+                            .isEmpty() == false;
+
+                    // loob broneeringu
+                    if (!kattub) {
+                        Reservation broneering = new Reservation();
+                        broneering.setLaud(laud);
+                        broneering.setKliendiNimi(juhuslikkKliendiNimi());
+                        broneering.setSeltskonnaSuurus(1 + juhuslik.nextInt(laud.getMahtuvus()));
+                        broneering.setAlgusAeg(algusAeg);
+                        broneering.setLoppAeg(loppAeg);
+                        broneeringteRepo.save(broneering);
+                    }
+                }
+            }
+        }
+        System.out.println("---------- Juhuslikud broneeringud loodud ----------");
+    }
+
+    // tagastab juhusliku eesti nime
+    private String juhuslikkKliendiNimi() {
+        String[] nimed = {
+                "Mari Maasikas", "Victoria Grau", "Liisi Jõgi", "Peeter Oja",
+                "Rando Seep", "Mart Sander", "Pippi Pikksukk", "Toomas Rand",
+                "Eeva Esse", "Andres Rain", "Tiina Ojaste", "Raivo Tamm",
+                "Jüri-Türi Üllar", "Emma Watson", "Karl-Erik Taukar"
+        };
+        return nimed[juhuslik.nextInt(nimed.length)];
+    }
+}

@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional // selleks, et testid ei segaks üksteist
 class RestaurantApplicationTests {
 
     // Spring teeb automaatselt
@@ -19,10 +21,10 @@ class RestaurantApplicationTests {
     private TableRepository laudadeRepo;
 
     @Autowired
-    private ReservationRepository broneeringteRepo;
+    private ReservationRepository broneeringuteRepo;
 
     @Test
-    void kontrolliEtRakendusKaivitub() {
+    void KasRakendusKaivitub() {
         assertTrue(true);
     }
 
@@ -89,7 +91,7 @@ class RestaurantApplicationTests {
         broneering.setLoppAeg(LocalDateTime.of(2026, 3, 20, 20, 0));
 
         // salvestab broneeringu
-        Reservation salvestitudBroneering = broneeringteRepo.save(broneering);
+        Reservation salvestitudBroneering = broneeringuteRepo.save(broneering);
 
         // kas salvestamine õnnestus
         assertNotNull(salvestitudBroneering.getId());
@@ -114,11 +116,72 @@ class RestaurantApplicationTests {
         suurLaud.setTsoon("siseala");
         laudadeRepo.save(suurLaud);
 
-        // leiab lauad mis mahutavad vähemalt 4 inimest
+        // leiab lauad, mis mahutavad vähemalt 4 inimest
         List<RestaurantTable> piisavaltSuured = laudadeRepo.findByMahtuvusGreaterThanEqual(4);
 
-        // kontrollib, et kõik leitud lauad mahutavad vähemalt 4 inimest
+        // kontrollib, kas kõik leitud lauad mahutavad vähemalt 4 inimest
         assertTrue(piisavaltSuured.stream()
                 .allMatch(l -> l.getMahtuvus() >= 4));
+    }
+    @Test
+    void kontrolliKasLauadLuuakseSeedimisega() {
+        // kas DataSeeder tegi 16 lauda?
+        long laudadeArv = laudadeRepo.count();
+        assertEquals(16, laudadeArv);
+    }
+
+    @Test
+    void kontrolliKasBroneeringudLoodi() {
+        // kas juhuslikud bron. loodi?
+        long broneeringuteArv = broneeringuteRepo.count();
+        assertTrue(broneeringuteArv > 0);
+        System.out.println("Loodud broneeringuid kokku: " + broneeringuteArv);
+    }
+
+    @Test
+    void kontrolliKasTsoonidOnOiged() {
+        // kõik kolm tsooni on olemas?
+        List<RestaurantTable> siseala = laudadeRepo.findByTsoon("siseala");
+        List<RestaurantTable> terrass = laudadeRepo.findByTsoon("terrass");
+        List<RestaurantTable> privaatruum = laudadeRepo.findByTsoon("privaatruum");
+
+        assertEquals(8, siseala.size());
+        assertEquals(5, terrass.size());
+        assertEquals(3, privaatruum.size());
+    }
+
+    @Test
+    void kasBroneeringudEiKattu() {
+        // esimene laud
+        RestaurantTable laud = laudadeRepo.findAll().get(0);
+
+        // kõik selle laua bron.
+        List<Reservation> broneeringud = broneeringuteRepo.findByLaud(laud);
+
+        // kas ükski broneering ei kattu teisega?
+        for (int i = 0; i < broneeringud.size(); i++) {
+            for (int j = i + 1; j < broneeringud.size(); j++) {
+                Reservation b1 = broneeringud.get(i);
+                Reservation b2 = broneeringud.get(j);
+
+                boolean kattub = b1.getAlgusAeg().isBefore(b2.getLoppAeg())
+                        && b1.getLoppAeg().isAfter(b2.getAlgusAeg());
+
+                assertFalse(kattub, "Broneeringud " + i + " ja " + j + " kattuvad!");
+            }
+        }
+    }
+
+    @Test
+    void kasSeltskonnaSuurustOnMoistlik() {
+        // ühegi broneeringu seltskonna suurus ei ületa laua mahtuvust?
+        List<Reservation> koikBroneeringud = broneeringuteRepo.findAll();
+
+        koikBroneeringud.forEach(broneering ->
+                assertTrue(
+                        broneering.getSeltskonnaSuurus() <= broneering.getLaud().getMahtuvus(),
+                        "Seltskond on suurem kui laua mahutavus laual: " + broneering.getLaud().getNimi()
+                )
+        );
     }
 }
