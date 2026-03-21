@@ -77,13 +77,13 @@ public class DataSeeder implements CommandLineRunner { // Spring interface
 
     private void looJuhuslikudBroneeringud() {
         // db-st kõik lauad
-        List<RestaurantTable> kõikLauad = laudadeRepo.findAll();
+        List<RestaurantTable> koikLauad = laudadeRepo.findAll();
 
         // loob broneeringud järgmiseks 7 päevaks
         LocalDateTime tana = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
 
         for (int paev = 0; paev < 7; paev++) {
-            for (RestaurantTable laud : kõikLauad) {
+            for (RestaurantTable laud : koikLauad) {
                 int broneeringuteArv = juhuslik.nextInt(4);
 
                 for (int i = 0; i < broneeringuteArv; i++) {
