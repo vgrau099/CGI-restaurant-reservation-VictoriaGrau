@@ -11,15 +11,15 @@ CGI suvepraktika proovitöö – Victoria Grau
 ### Sammud
 1. Kloonige repositoorium:
    https://github.com/vgrau099/CGI-restaurant-reservation-VictoriaGrau.git
-2. Navigeerige projekti kausta:
+2. Navigeerige projekti kausta (nt. git bashi kasutades):
    cd CGI-restaurant-reservation-VictoriaGrau
-3. Käivitage rakendus Maven Wrapper abil:
+3. Käivitage rakendus:
    ./mvnw spring-boot:run
 Windowsil:
    mvnw.cmd spring-boot:run
    VÕI 
    Lihtsalt käivitage Intellij-s RestaurantApplication.java
-4. Avage brauser ja minge aadressile:
+5. Avage brauser ja minge aadressile:
    http://localhost:8080
 
 
