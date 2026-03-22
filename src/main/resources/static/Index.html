@@ -150,6 +150,20 @@
     </div>
 </div>
 
+<!-- toidusoovitus pärast broneerimist -->
+<div class="toit-soovitus-taust" id="toitSoovitusTaust" style="display:none;">
+    <div class="toit-soovitus">
+        <h2>🎉 Broneering kinnitatud!</h2>
+        <p>Tere tulemast, <strong id="toitSoovitusNimi"></strong>!</p>
+        <hr>
+        <p>Tänane soovitus:</p>
+        <img id="toitSoovitusPilt" src="" alt="roa pilt">
+        <h3 id="toitSoovitusRoog"></h3>
+        <p class="toit-kategooria" id="toitSoovitusKategooria"></p>
+        <button class="kinnita-nupp" onclick="sulgeToitSoovitus()">Suurepärane!</button>
+    </div>
+</div>
+
 <!-- õnnestumise/vea teade -->
 <div class="teade" id="teade"></div>
 <script src="main.js"></script>

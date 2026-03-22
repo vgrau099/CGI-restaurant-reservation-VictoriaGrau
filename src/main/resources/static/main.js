@@ -445,7 +445,13 @@ async function kinnitaBroneering() {
             await laeAktiivsedBroneeringud();
             joonistaSaaliPlaan();
 
-            näitaTeadet(`Broneering kinnitatud! Tere tulemast, ${nimi}!`, 'edu');
+            // lae toidusoovitus TheMealDB-st
+            const roog = await laeToituSoovitus();
+            if (roog) {
+                näitaToituSoovitus(nimi, roog);
+            } else {
+                näitaTeadet(`Broneering kinnitatud! Tere tulemast, ${nimi}!`, 'edu');
+            }
         } else {
             const veaTekst = await vastus.text();
             näitaTeadet('Broneerimine ebaõnnestus: ' + veaTekst, 'viga');
@@ -455,7 +461,35 @@ async function kinnitaBroneering() {
     }
 }
 
+function näitaToituSoovitus(kliendiNimi, roog) {
+    document.getElementById('toitSoovitusTaust').style.display = 'flex';
+    document.getElementById('toitSoovitusNimi').textContent = kliendiNimi;
+    document.getElementById('toitSoovitusRoog').textContent = roog.nimi;
+    document.getElementById('toitSoovitusKategooria').textContent = roog.kategooria;
+    document.getElementById('toitSoovitusPilt').src = roog.pilt;
+}
+
+function sulgeToitSoovitus() {
+    document.getElementById('toitSoovitusTaust').style.display = 'none';
+}
+
 // --- TEATED ---
+
+// TheMealDB API - soovitab juhusliku roa pärast broneerimist https://www.themealdb.com/api.php
+async function laeToituSoovitus() {
+    try {
+        const vastus = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+        const andmed = await vastus.json();
+        const roog = andmed.meals[0];
+        return {
+            nimi: roog.strMeal,
+            kategooria: roog.strCategory,
+            pilt: roog.strMealThumb
+        };
+    } catch (viga) {
+        return null;
+    }
+}
 
 function näitaTeadet(sõnum, tüüp) {
     const teadeEl = document.getElementById('teade');

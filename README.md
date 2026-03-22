@@ -45,6 +45,14 @@ Täisfunktsionaalne restorani reserveerimissüsteem, mis koosneb Spring Boot bac
 
 ---
 
+## Väline API - TheMealDB
+
+Broneeringu kinnitamisel võetakse TheMealDB-st juhuslik roaretsept, mis kuvatakse kasutajale soovitusena.
+
+- https://www.themealdb.com/api.php
+- Kasutab https://www.themealdb.com/api/json/v1/1/random.php
+
+
 ## Tööle kulunud aeg
 
 **Kokku:** ~4 päeva (neljapäev-pühapäev)
