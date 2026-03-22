@@ -17,8 +17,9 @@ CGI suvepraktika proovitöö – Victoria Grau
    ./mvnw spring-boot:run
 Windowsil:
    mvnw.cmd spring-boot:run
-4. Käivitage RestaurantApplication.java
-5. Avage brauser ja minge aadressile:
+   VÕI 
+   Lihtsalt käivitage Intellij-s RestaurantApplication.java
+4. Avage brauser ja minge aadressile:
    http://localhost:8080
 
 
@@ -89,11 +90,6 @@ const dpr = window.devicePixelRatio || 1;
 canvas.width = laius * dpr;
 ctx.scale(dpr, dpr);
 ```
-
-### 4. HTML struktuuriviga
-Ühel hetkel kadusid lauad frontendilt täielikult. Pärast pikka otsimist selgus, et HTML-is oli kogemata kaks `<div class="legend">` opening tagi ilma ühe closing tagita, mis lõhkus kogu paigutuse ja canvas ei saanud õiget suurust.
-
----
 
 ## Eeldused ja otsused
 
