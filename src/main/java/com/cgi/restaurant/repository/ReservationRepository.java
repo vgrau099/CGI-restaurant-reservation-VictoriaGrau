@@ -25,6 +25,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // @Query annotatsiooni kasutamine - Spring Data JPA allikas:
     // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query
     // kattuvuse kontroll
+
     @Query("SELECT r FROM Reservation r WHERE r.laud = :laud AND r.algusAeg < :uusLopp AND r.loppAeg > :uusAlgus")
     List<Reservation> leiaKattuvadBroneeringud(
             @Param("laud") RestaurantTable laud,
