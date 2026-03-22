@@ -79,6 +79,7 @@ public class ReservationService {
             return null;
         }
 
+        // Skoorimisalgoritm on ise välja mõeldud, inspiratsiooni sain soovitussüsteemide üldistest põhimõtetest.
         // Kasutan Java Stream API max() meetodit koos Comparatoriga,
         // et leida suurima skooriga laud (õpitud siit allikalt: https://www.geeksforgeeks.org/java/stream-in-java/)
         return vabadLauad.stream()

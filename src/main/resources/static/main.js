@@ -83,6 +83,8 @@ function seaCanvasSuurus() {
     const laius = konteiner.clientWidth;
     const korgus = konteiner.clientHeight - 60;
 
+    // Canvas DPI skaleerimine retina ekraanide jaoks - leitud siit:
+    // https://web.dev/articles/canvas-hidipi
     // devicePixelRatio on ekraani pikslite tihedus
     const dpr = window.devicePixelRatio || 1;
 
@@ -173,6 +175,8 @@ async function otsiLaudu() {
     otsinguLoppAeg = `${kuupaev}T${loppAegStr}:00`;
 
     try {
+        // URLSearchParams päringustringi koostamiseks - allikas:
+        // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
         const params = new URLSearchParams({
             algusAeg: otsinguAlgusAeg,
             loppAeg: otsinguLoppAeg,
@@ -288,7 +292,8 @@ function joonistaLaud(laud, l, k) {
         // privaatruum ringi kujuline
         const raadius = 45;
         ctx.beginPath();
-        ctx.arc(x, y, raadius, 0, Math.PI * 2);
+        ctx.arc(x, y, raadius, 0, Math.PI * 2); // Ringi joonistamine Canvas API-ga - allikas:
+                                                // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc
         ctx.fillStyle = taustaVarv;
         ctx.fill();
         ctx.strokeStyle = ääreVarv;
@@ -306,7 +311,8 @@ function joonistaLaud(laud, l, k) {
     } else {
         // ristkülik teiste laudade jaoks
         ctx.beginPath();
-        ctx.roundRect(x - LAUA_LAIUS/2, y - LAUA_KORGUS/2, LAUA_LAIUS, LAUA_KORGUS, 8);
+        ctx.roundRect(x - LAUA_LAIUS/2, y - LAUA_KORGUS/2, LAUA_LAIUS, LAUA_KORGUS, 8); // Ümardatud nurkadega ristküliku joonistamine - allikas:
+                                                                                        // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/roundRect
         ctx.fillStyle = taustaVarv;
         ctx.fill();
         ctx.strokeStyle = ääreVarv;

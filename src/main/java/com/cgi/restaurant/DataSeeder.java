@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
+// CommandLineRunner kasutamine andmete seedimisel - Spring Boot allikas:
+// https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.command-line-runner
 @Component
 public class DataSeeder implements CommandLineRunner { // Spring interface
 
