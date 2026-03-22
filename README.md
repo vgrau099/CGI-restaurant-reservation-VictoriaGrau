@@ -91,11 +91,6 @@ canvas.width = laius * dpr;
 ctx.scale(dpr, dpr);
 ```
 
-### 4. HTML struktuuriviga
-Ühel hetkel kadusid lauad frontendilt täielikult. Pärast pikka otsimist selgus, et HTML-is oli kogemata kaks `<div class="legend">` opening tagi ilma ühe closing tagita, mis lõhkus kogu paigutuse ja canvas ei saanud õiget suurust.
-
----
-
 ## Eeldused ja otsused
 
 - Broneeringu kestuseks on fikseeritud 2 tundi, kuna see on tüüpiline restoranikülastuse pikkus
