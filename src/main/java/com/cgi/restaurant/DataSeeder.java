@@ -34,24 +34,24 @@ public class DataSeeder implements CommandLineRunner { // Spring interface
 
     private void looLauad() {
         laudadeRepo.saveAll(List.of(
-                looLaud("Laud 1", 2, "siseala", false, true,  false, false, 100, 100),
-                looLaud("Laud 2", 2, "siseala", true,  false, false, false, 100, 200),
-                looLaud("Laud 3", 4, "siseala", true,  false, false, false, 100, 300),
-                looLaud("Laud 4", 4, "siseala", false, false, true,  false, 100, 400),
-                looLaud("Laud 5", 4, "siseala", false, true,  false, false, 100, 500),
-                looLaud("Laud 6", 6, "siseala", false, false, false, true,  250, 100),
-                looLaud("Laud 7", 6, "siseala", true,  false, false, true,  250, 250),
-                looLaud("Laud 8", 8, "siseala", false, false, true,  false, 250, 400),
+                looLaud("Laud 1", 2, "terrass", true,  false, false, false, 100, 80),
+                looLaud("Laud 2", 2, "terrass", true,  false, false, false, 100, 200),
+                looLaud("Laud 3", 4, "terrass", true,  false, true,  false, 100, 320),
+                looLaud("Laud 4", 4, "terrass", false, true,  false, false, 100, 440),
+                looLaud("Laud 5", 6, "terrass", false, true,  false, false, 100, 560),
 
-                looLaud("Laud 9",  2, "terrass", true,  false, false, false, 500, 100),
-                looLaud("Laud 10", 2, "terrass", true,  false, false, false, 500, 200),
-                looLaud("Laud 11", 4, "terrass", false, true,  false, false, 500, 300),
-                looLaud("Laud 12", 4, "terrass", true,  false, true,  false, 500, 400),
-                looLaud("Laud 13", 6, "terrass", false, false, false, false, 500, 500),
+                looLaud("Laud 6",  2, "siseala", false, true,  false, false, 340, 80),
+                looLaud("Laud 7",  2, "siseala", true,  false, false, false, 560, 80),
+                looLaud("Laud 8",  4, "siseala", true,  false, false, false, 340, 200),
+                looLaud("Laud 9",  4, "siseala", false, false, true,  false, 560, 200),
+                looLaud("Laud 10", 4, "siseala", false, true,  false, false, 340, 320),
+                looLaud("Laud 11", 4, "siseala", false, false, false, true,  560, 320),
+                looLaud("Laud 12", 6, "siseala", false, false, false, true,  340, 440),
+                looLaud("Laud 13", 6, "siseala", true,  false, false, false, 560, 440),
+                looLaud("Laud 14", 8, "siseala", false, false, true,  false, 340, 560),
+                looLaud("Laud 15", 8, "siseala", false, true,  false, false, 560, 560),
 
-                looLaud("Laud 14", 6,  "privaatruum", false, true, false, false, 750, 100),
-                looLaud("Laud 15", 8,  "privaatruum", false, true, true,  false, 750, 250),
-                looLaud("Laud 16", 10, "privaatruum", false, true, false, false, 750, 400)
+                looLaud("Laud 16", 10, "privaatruum", false, true, true, false, 805, 320)
         ));
         System.out.println("---------- 16 lauda loodud ----------");
     }
@@ -94,9 +94,9 @@ public class DataSeeder implements CommandLineRunner { // Spring interface
                     LocalDateTime loppAeg = algusAeg.plusHours(2);
 
                     // kontrollib, kas see aeg on juba broneeritud
-                    boolean kattub = broneeringteRepo
-                            .findByLaudAndAlgusAegLessThanAndLoppAegGreaterThan(laud, loppAeg, algusAeg)
-                            .isEmpty() == false;
+                    boolean kattub = !broneeringteRepo
+                            .leiaKattuvadBroneeringud(laud, algusAeg, loppAeg)
+                            .isEmpty();
 
                     // loob broneeringu
                     if (!kattub) {

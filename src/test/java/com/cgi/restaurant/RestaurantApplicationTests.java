@@ -144,14 +144,13 @@ class RestaurantApplicationTests {
 
     @Test
     void kontrolliKasTsoonidOnOiged() {
-        // kõik kolm tsooni on olemas?
         List<RestaurantTable> siseala = laudadeRepo.findByTsoon("siseala");
         List<RestaurantTable> terrass = laudadeRepo.findByTsoon("terrass");
         List<RestaurantTable> privaatruum = laudadeRepo.findByTsoon("privaatruum");
 
-        assertEquals(8, siseala.size());
+        assertEquals(10, siseala.size());
         assertEquals(5, terrass.size());
-        assertEquals(3, privaatruum.size());
+        assertEquals(1, privaatruum.size());
     }
 
     @Test
@@ -293,5 +292,28 @@ class RestaurantApplicationTests {
                         reservationService.looBreneering(laud.getId(), "Teine Klient", 2, algus, lopp),
                 "Topeltbroneering ei ebaõnnestunud"
         );
+    }
+
+    @Test
+    void kontrolliTopeltBroneeringuidBackendis() {
+        // esimene laud
+        RestaurantTable laud = laudadeRepo.findAll().get(0);
+
+        LocalDateTime algus = LocalDateTime.now().plusDays(30).withHour(14).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime lopp = algus.plusHours(2);
+
+        Reservation esimene = reservationService.looBreneering(
+                laud.getId(), "Test Klient 1", 2, algus, lopp
+        );
+        assertNotNull(esimene.getId(), "Esimene broneering peaks õnnestuma");
+
+        // peab ebaõnnestuma
+        assertThrows(RuntimeException.class, () ->
+                reservationService.looBreneering(
+                        laud.getId(), "Test Klient 2", 2, algus, lopp
+                )
+        );
+
+        System.out.println("Backend topeltbroneeringu kaitse töötab");
     }
 }
