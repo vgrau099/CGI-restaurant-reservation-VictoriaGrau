@@ -24,9 +24,6 @@ public class ReservationService {
 
     public boolean onLaudVaba(RestaurantTable laud, LocalDateTime algusAeg, LocalDateTime loppAeg) {
         List<Reservation> kattuvadBroneeringud = broneeringuteRepo.leiaKattuvadBroneeringud(laud, algusAeg, loppAeg);
-        System.out.println(">>> Kontrollime lauda: " + laud.getNimi());
-        System.out.println(">>> Algus: " + algusAeg + " Lopp: " + loppAeg);
-        System.out.println(">>> Kattuvaid broneeringuid: " + kattuvadBroneeringud.size());
         return kattuvadBroneeringud.isEmpty();
     }
 

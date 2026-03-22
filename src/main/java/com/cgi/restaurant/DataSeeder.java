@@ -34,24 +34,24 @@ public class DataSeeder implements CommandLineRunner { // Spring interface
 
     private void looLauad() {
         laudadeRepo.saveAll(List.of(
-                looLaud("Laud 1", 2, "terrass", true,  false, false, false, 100, 80),
-                looLaud("Laud 2", 2, "terrass", true,  false, false, false, 100, 200),
-                looLaud("Laud 3", 4, "terrass", true,  false, true,  false, 100, 320),
-                looLaud("Laud 4", 4, "terrass", false, true,  false, false, 100, 440),
-                looLaud("Laud 5", 6, "terrass", false, true,  false, false, 100, 560),
+                looLaud("Laud 1", 2, "terrass", false,  true, true, false, 100, 90),
+                looLaud("Laud 2", 2, "terrass", false,  false, true, false, 100, 210),
+                looLaud("Laud 3", 4, "terrass", false,  false, true,  false, 100, 330),
+                looLaud("Laud 4", 4, "terrass", false, false,  true, false, 100, 440),
+                looLaud("Laud 5", 6, "terrass", false, true,  true, false, 100, 570),
 
-                looLaud("Laud 6",  2, "siseala", false, true,  false, false, 340, 80),
-                looLaud("Laud 7",  2, "siseala", true,  false, false, false, 560, 80),
-                looLaud("Laud 8",  4, "siseala", true,  false, false, false, 340, 200),
-                looLaud("Laud 9",  4, "siseala", false, false, true,  false, 560, 200),
-                looLaud("Laud 10", 4, "siseala", false, true,  false, false, 340, 320),
-                looLaud("Laud 11", 4, "siseala", false, false, false, true,  560, 320),
-                looLaud("Laud 12", 6, "siseala", false, false, false, true,  340, 440),
-                looLaud("Laud 13", 6, "siseala", true,  false, false, false, 560, 440),
-                looLaud("Laud 14", 8, "siseala", false, false, true,  false, 340, 560),
-                looLaud("Laud 15", 8, "siseala", false, true,  false, false, 560, 560),
+                looLaud("Laud 6",  2, "siseala", true, true,  true, false, 340, 90),
+                looLaud("Laud 7",  2, "siseala", false,  true, true, false, 560, 90),
+                looLaud("Laud 8",  4, "siseala", true,  false, false, false, 340, 210),
+                looLaud("Laud 9",  4, "siseala", false, false, false,  false, 560, 210),
+                looLaud("Laud 10", 4, "siseala", true, false,  false, false, 340, 330),
+                looLaud("Laud 11", 4, "siseala", false, false, false, false,  560, 330),
+                looLaud("Laud 12", 6, "siseala", true, false, false, true,  340, 450),
+                looLaud("Laud 13", 6, "siseala", false,  false, false, true, 560, 450),
+                looLaud("Laud 14", 8, "siseala", true, true, true,  true, 340, 570),
+                looLaud("Laud 15", 8, "siseala", false, true,  true, true, 560, 570),
 
-                looLaud("Laud 16", 10, "privaatruum", false, true, true, false, 805, 320)
+                looLaud("Laud 16", 10, "privaatruum", true, true, true, false, 805, 330)
         ));
         System.out.println("---------- 16 lauda loodud ----------");
     }
