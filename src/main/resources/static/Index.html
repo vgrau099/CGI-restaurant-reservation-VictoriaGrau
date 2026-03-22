@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restorani Reserveerimissüsteem</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- päis -->
+<header>
+    <span>🍴</span>
+    <h1>Restorani Reserveerimissüsteem</h1>
+    <button class="värskenda-nupp" onclick="värskendaAndmed()">Värskenda</button>
+</header>
+
+<!-- filtrid + saaliplaan -->
+<div class="pohijaotus">
+
+    <!-- vasakpoolne filtrite paneel -->
+    <div class="filtrid-paneel">
+        <h2>🔎 Otsi lauda</h2>
+
+        <div class="lahtioleku-info">
+            🕗 Lahtiolekuajad: 12:00 - 22:00<br>
+            🗓️ Broneerimine võimalik kuni 7 päeva ette<br>
+            ⏲️ Broneeringu kestus: 2 tundi
+        </div>
+
+        <!-- kuupäev -->
+        <div class="filter-grupp">
+            <label>Kuupäev</label>
+            <input type="date" id="kuupaev">
+        </div>
+
+        <!-- kellaaeg -->
+        <div class="filter-grupp">
+            <label>Kellaaeg</label>
+            <select id="kellaaeg">
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00" selected>18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+            </select>
+        </div>
+
+        <!-- inimeste arv -->
+        <div class="filter-grupp">
+            <label>Inimeste arv</label>
+            <input type="number" id="inimesi" min="1" max="10" value="2">
+        </div>
+
+        <!-- tsoon -->
+        <div class="filter-grupp">
+            <label>Tsoon</label>
+            <select id="tsoon">
+                <option value="">Kõik tsoonid</option>
+                <option value="siseala">Siseala</option>
+                <option value="terrass">Terrass</option>
+                <option value="privaatruum">Privaatruum</option>
+            </select>
+        </div>
+
+        <!-- eelistused -->
+        <div class="filter-grupp">
+            <label>Eelistused</label>
+            <br>
+            <div class="eelistused-grupp">
+                <label class="eelistus-rida">
+                    <input type="checkbox" id="aknaAares">
+                    <span>Akna ääres</span>
+                </label>
+                <label class="eelistus-rida">
+                    <input type="checkbox" id="vaikneNurk">
+                    <span>Vaikne nurk</span>
+                </label>
+                <label class="eelistus-rida">
+                    <input type="checkbox" id="ligipaasetav">
+                    <span>Ligipääsetav</span>
+                </label>
+                <label class="eelistus-rida">
+                    <input type="checkbox" id="mangunurk">
+                    <span>Mängunurga lähedal</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- otsingunupp -->
+        <button class="otsi-nupp" onclick="otsiLaudu()">
+            🔍 Otsi vabu laudu
+        </button>
+
+        <!-- legend -->
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-rida">
+                <div class="legend-ruut" style="background: #d3569a;"></div>
+                <span>Soovitatud laud</span>
+            </div>
+            <div class="legend-rida">
+                <div class="legend-ruut" style="background: #57bf4c;"></div>
+                <span>Vaba laud</span>
+            </div>
+            <div class="legend-rida">
+                <div class="legend-ruut" style="background: #912020;"></div>
+                <span>Hõivatud laud</span>
+            </div>
+            <div class="legend-rida">
+                <div class="legend-ruut" style="background: #3b73be;"></div>
+                <span>Valitud laud</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- parempoolne saaliplaani ala -->
+    <div class="saaliplaani-ala">
+        <div class="saaliplaani-pealkiri">
+            <h2>Saaliplаan</h2>
+        </div>
+        <canvas id="saaliPlaan"></canvas> <!-- javascripti jaoks -->
+    </div>
+</div>
+
+<!-- broneeringu aken -->
+<div class="modal-taust" id="modalTaust">
+    <div class="modal">
+        <h2>Broneeri laud</h2>
+        <!-- laua info -->
+        <div class="modal-info" id="modalInfo"></div>
+        <!-- kliendi nime sisestus -->
+        <div class="modal-grupp">
+            <label>Teie nimi</label>
+            <input type="text" id="kliendiNimi" placeholder="Ees- ja perekonnanimi">
+        </div>
+        <div class="modal-nupud">
+            <button class="kinnita-nupp" onclick="kinnitaBroneering()">
+                ✅ Kinnita broneering
+            </button>
+            <button class="tuhista-nupp" onclick="sulgeModal()">
+                ✖ Tühista
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- õnnestumise/vea teade -->
+<div class="teade" id="teade"></div>
+<!-- <script src="main.js"></script> -->
+
+</body>
+</html>

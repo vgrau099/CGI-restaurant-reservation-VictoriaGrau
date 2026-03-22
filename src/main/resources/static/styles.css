@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #1a1a1a;
+    color: #ccc;
+    min-height: 100vh;
+}
+
+/* päis */
+header {
+    background: #2a2a2a;
+    padding: 15px 30px;
+    border-bottom: 1px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: #eee;
+    font-weight: 500;
+}
+
+header span {
+    font-size: 1.8rem;
+}
+
+.värskenda-nupp {
+    margin-left: auto;
+    background: transparent;
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.värskenda-nupp:hover {
+    border-color: #aaa;
+    color: #eee;
+}
+
+.pohijaotus {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    height: calc(100vh - 60px);
+}
+
+.filtrid-paneel {
+    width: 280px;
+    min-width: 280px;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #444;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filtrid-paneel h2 {
+    color: #eee;
+    font-size: 1rem;
+    font-weight: 500;
+    border-bottom: 1px solid #444;
+    padding-bottom: 8px;
+}
+
+.lahtioleku-info {
+    background: #333;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    color: #aaa;
+    line-height: 1.8;
+}
+
+.filter-grupp {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-grupp label {
+    font-size: 0.8rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-grupp input,
+.filter-grupp select {
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 6px;
+    color: #eee;
+    padding: 8px 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.filter-grupp input:focus,
+.filter-grupp select:focus {
+    outline: none;
+    border-color: #aaa;
+}
+
+.eelistused-grupp {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.eelistus-rida {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.eelistus-rida:hover {
+    background: #333;
+}
+
+.eelistus-rida input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.eelistus-rida span {
+    font-size: 0.9rem;
+}
+
+.otsi-nupp {
+    background: #444;
+    color: #eee;
+    border: 1px solid #666;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+}
+
+.otsi-nupp:hover {
+    background: #555;
+}
+
+.legend {
+    background: #333;
+    border-radius: 6px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.legend h3 {
+    font-size: 0.8rem;
+    color: #aaa;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.legend-rida {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+.legend-ruut {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.saaliplaani-ala {
+    flex: 1;
+    background: #2a2a2a;
+    border-radius: 8px;
+    border: 1px solid #444;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.saaliplaani-pealkiri {
+    padding: 12px 15px;
+    border-bottom: 1px solid #444;
+}
+
+.saaliplaani-pealkiri h2 {
+    color: #eee;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#saaliPlaan {
+    flex: 1;
+    width: 100%;
+    cursor: default;
+}
+
+/* modal */
+.hupikaken-taust {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.hupikaken-taust.aktiivne {
+    display: flex;
+}
+
+.modal {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 25px;
+    width: 380px;
+    border: 1px solid #555;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal h2 {
+    color: #eee;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.modal-info {
+    background: #333;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #bbb;
+    line-height: 1.6;
+}
+
+.modal-grupp {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.modal-grupp label {
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.modal-grupp input {
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 6px;
+    color: #eee;
+    padding: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.9rem;
+}
+
+.modal-nupud {
+    display: flex;
+    gap: 10px;
+}
+
+.kinnita-nupp {
+    flex: 1;
+    background: #444;
+    color: #eee;
+    border: 1px solid #666;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.kinnita-nupp:hover {
+    background: #555;
+}
+
+.tuhista-nupp {
+    flex: 1;
+    background: transparent;
+    color: #aaa;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.tuhista-nupp:hover {
+    color: #eee;
+    border-color: #aaa;
+}
+
+.teade {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    z-index: 2000;
+}
+
+.teade.edu {
+    background: #2a3d2a;
+    border: 1px solid #5a8a5a;
+    color: #8bc98b;
+}
+
+.teade.viga {
+    background: #3d2a2a;
+    border: 1px solid #8a5a5a;
+    color: #c98b8b;
+}
+
+/* mobiilivaade */
+@media (max-width: 768px) {
+    .pohijaotus {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .filtrid-paneel {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .saaliplaani-ala {
+        height: 500px;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+    }
+}
