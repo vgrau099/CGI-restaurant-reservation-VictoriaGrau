@@ -17,8 +17,9 @@ CGI suvepraktika proovitöö – Victoria Grau
    ./mvnw spring-boot:run
 Windowsil:
    mvnw.cmd spring-boot:run
-4. Käivitage RestaurantApplication.java
-5. Avage brauser ja minge aadressile:
+   VÕI 
+   Lihtsalt käivitage Intellij-s RestaurantApplication.java
+4. Avage brauser ja minge aadressile:
    http://localhost:8080
 
 
