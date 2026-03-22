@@ -8,16 +8,15 @@
 
 body {
     font-family: 'Ubuntu', sans-serif;
-    background-color: #1a1a1a;
-    color: #ccc;
+    background-color: #0a0f1e;
+    color: #c9d4e8;
     min-height: 100vh;
 }
 
-/* päis */
 header {
-    background: #2a2a2a;
+    background: #111827;
     padding: 15px 30px;
-    border-bottom: 1px solid #444;
+    border-bottom: 2px solid #93c5fd;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -25,7 +24,7 @@ header {
 
 header h1 {
     font-size: 1.5rem;
-    color: #eee;
+    color: #e2e8f0;
     font-weight: 500;
 }
 
@@ -35,19 +34,22 @@ header span {
 
 .värskenda-nupp {
     margin-left: auto;
-    background: transparent;
-    color: #ccc;
-    border: 1px solid #555;
-    border-radius: 6px;
-    padding: 8px 16px;
     font-family: 'Ubuntu', sans-serif;
     font-size: 0.9rem;
     cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.5s ease;
+    color: #93c5fd;
+    border: 2px solid #93c5fd;
+    background-color: transparent;
+    text-transform: uppercase;
+    outline: none;
 }
 
 .värskenda-nupp:hover {
-    border-color: #aaa;
-    color: #eee;
+    color: #0a0f1e;
+    background-color: #93c5fd;
 }
 
 .pohijaotus {
@@ -60,10 +62,10 @@ header span {
 .filtrid-paneel {
     width: 280px;
     min-width: 280px;
-    background: #2a2a2a;
+    background: #111827;
     border-radius: 8px;
     padding: 15px;
-    border: 1px solid #444;
+    border: 1px solid #1e3a5f;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -71,19 +73,19 @@ header span {
 }
 
 .filtrid-paneel h2 {
-    color: #eee;
+    color: #93c5fd;
     font-size: 1rem;
     font-weight: 500;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #1e3a5f;
     padding-bottom: 8px;
 }
 
 .lahtioleku-info {
-    background: #333;
+    background: #1e3a5f;
     border-radius: 6px;
     padding: 10px 12px;
     font-size: 0.8rem;
-    color: #aaa;
+    color: #93c5fd;
     line-height: 1.8;
 }
 
@@ -95,17 +97,17 @@ header span {
 
 .filter-grupp label {
     font-size: 0.8rem;
-    color: #aaa;
+    color: #64748b;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .filter-grupp input,
 .filter-grupp select {
-    background: #333;
-    border: 1px solid #555;
+    background: #1e293b;
+    border: 1px solid #1e3a5f;
     border-radius: 6px;
-    color: #eee;
+    color: #e2e8f0;
     padding: 8px 10px;
     font-family: 'Ubuntu', sans-serif;
     font-size: 0.9rem;
@@ -115,7 +117,7 @@ header span {
 .filter-grupp input:focus,
 .filter-grupp select:focus {
     outline: none;
-    border-color: #aaa;
+    border-color: #2563eb;
 }
 
 .eelistused-grupp {
@@ -134,23 +136,25 @@ header span {
 }
 
 .eelistus-rida:hover {
-    background: #333;
+    background: #1e293b;
 }
 
 .eelistus-rida input[type="checkbox"] {
     width: 15px;
     height: 15px;
     cursor: pointer;
+    accent-color: #2563eb;
 }
 
 .eelistus-rida span {
     font-size: 0.9rem;
+    color: #c9d4e8;
 }
 
 .otsi-nupp {
-    background: #444;
-    color: #eee;
-    border: 1px solid #666;
+    background: #2563eb;
+    color: #e2e8f0;
+    border: none;
     border-radius: 6px;
     padding: 10px;
     font-family: 'Ubuntu', sans-serif;
@@ -158,14 +162,15 @@ header span {
     font-weight: 500;
     cursor: pointer;
     width: 100%;
+    transition: background 0.2s;
 }
 
 .otsi-nupp:hover {
-    background: #555;
+    background: #1d4ed8;
 }
 
 .legend {
-    background: #333;
+    background: #1e293b;
     border-radius: 6px;
     padding: 10px;
     display: flex;
@@ -175,7 +180,7 @@ header span {
 
 .legend h3 {
     font-size: 0.8rem;
-    color: #aaa;
+    color: #64748b;
     text-transform: uppercase;
     font-weight: 400;
 }
@@ -185,6 +190,7 @@ header span {
     align-items: center;
     gap: 8px;
     font-size: 0.85rem;
+    color: #c9d4e8;
 }
 
 .legend-ruut {
@@ -194,11 +200,29 @@ header span {
     flex-shrink: 0;
 }
 
+/* kerimisriba */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111827;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #93c5fd;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #60a5fa;
+}
+
 .saaliplaani-ala {
     flex: 1;
-    background: #2a2a2a;
+    background: #0d1526;
     border-radius: 8px;
-    border: 1px solid #444;
+    border: 1px solid #1e3a5f;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -206,11 +230,11 @@ header span {
 
 .saaliplaani-pealkiri {
     padding: 12px 15px;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #1e3a5f;
 }
 
 .saaliplaani-pealkiri h2 {
-    color: #eee;
+    color: #93c5fd;
     font-size: 1rem;
     font-weight: 500;
 }
@@ -221,47 +245,46 @@ header span {
     cursor: default;
 }
 
-/* modal */
-.hupikaken-taust {
+.modal-taust {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     justify-content: center;
     align-items: center;
 }
 
-.hupikaken-taust.aktiivne {
+.modal-taust.aktiivne {
     display: flex;
 }
 
 .modal {
-    background: #2a2a2a;
+    background: #111827;
     border-radius: 8px;
     padding: 25px;
     width: 380px;
-    border: 1px solid #555;
+    border: 1px solid #2563eb;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
 .modal h2 {
-    color: #eee;
+    color: #93c5fd;
     font-size: 1.1rem;
     font-weight: 500;
 }
 
 .modal-info {
-    background: #333;
+    background: #1e293b;
     border-radius: 6px;
     padding: 10px;
     font-size: 0.9rem;
-    color: #bbb;
+    color: #c9d4e8;
     line-height: 1.6;
 }
 
@@ -273,17 +296,21 @@ header span {
 
 .modal-grupp label {
     font-size: 0.85rem;
-    color: #aaa;
+    color: #64748b;
 }
 
 .modal-grupp input {
-    background: #333;
-    border: 1px solid #555;
+    background: #1e293b;
+    border: 1px solid #1e3a5f;
     border-radius: 6px;
-    color: #eee;
+    color: #e2e8f0;
     padding: 10px;
     font-family: 'Ubuntu', sans-serif;
     font-size: 0.9rem;
+}
+
+.modal-grupp input::placeholder {
+    color: #64748b;
 }
 
 .modal-nupud {
@@ -293,36 +320,38 @@ header span {
 
 .kinnita-nupp {
     flex: 1;
-    background: #444;
-    color: #eee;
-    border: 1px solid #666;
+    background: #2563eb;
+    color: #e2e8f0;
+    border: none;
     border-radius: 6px;
     padding: 10px;
     font-family: 'Ubuntu', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
 .kinnita-nupp:hover {
-    background: #555;
+    background: #1d4ed8;
 }
 
 .tuhista-nupp {
     flex: 1;
     background: transparent;
-    color: #aaa;
-    border: 1px solid #555;
+    color: #64748b;
+    border: 1px solid #1e3a5f;
     border-radius: 6px;
     padding: 10px;
     font-family: 'Ubuntu', sans-serif;
     font-size: 0.9rem;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
 .tuhista-nupp:hover {
-    color: #eee;
-    border-color: #aaa;
+    color: #e2e8f0;
+    border-color: #2563eb;
 }
 
 .teade {
@@ -337,18 +366,17 @@ header span {
 }
 
 .teade.edu {
-    background: #2a3d2a;
-    border: 1px solid #5a8a5a;
-    color: #8bc98b;
+    background: #162a1e;
+    border: 1px solid #16a34a;
+    color: #4ade80;
 }
 
 .teade.viga {
-    background: #3d2a2a;
-    border: 1px solid #8a5a5a;
-    color: #c98b8b;
+    background: #2a1216;
+    border: 1px solid #dc2626;
+    color: #f87171;
 }
 
-/* mobiilivaade */
 @media (max-width: 768px) {
     .pohijaotus {
         flex-direction: column;
